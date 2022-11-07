@@ -1,5 +1,42 @@
 // require in the database adapter functions as you write them (createUser, createActivity...)
-// const { } = require('./');
+const { 
+  createUser,
+  getUser,
+  getUserById,
+  getUserByUsername,
+} = require('./users');
+
+const { 
+  getAllActivities,
+  getActivityById,
+  getActivityByName,
+  attachActivitiesToRoutines,
+  createActivity,
+  updateActivity,
+} = require('./activities');
+
+const { 
+  getRoutineById,
+  getRoutinesWithoutActivities,
+  getAllRoutines,
+  getAllPublicRoutines,
+  getAllRoutinesByUser,
+  getPublicRoutinesByUser,
+  getPublicRoutinesByActivity,
+  createRoutine,
+  updateRoutine,
+  destroyRoutine,
+} = require('./routines');
+
+const { 
+  getRoutineActivityById,
+  addActivityToRoutine,
+  getRoutineActivitiesByRoutine,
+  updateRoutineActivity,
+  destroyRoutineActivity,
+  canEditRoutineActivity,
+} = require('./routine_activities');
+
 const client = require("./client")
 
 async function dropTables() {
@@ -9,6 +46,9 @@ async function dropTables() {
     // have to make sure to drop in correct order
 
     await client.query(`
+      DROP TABLE IF EXISTS routine_activities;
+      DROP TABLE IF EXISTS routines;
+      DROP TABLE IF EXISTS activities;
       DROP TABLE IF EXISTS users;
     `);
 
@@ -35,14 +75,14 @@ async function createTables() {
       CREATE TABLE activities (
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) UNIQUE NOT NULL,
-        description TEXT   NOT NULL
+        description TEXT NOT NULL
       );
     `);
 
     await client.query(`
       CREATE TABLE routines (
         id SERIAL PRIMARY KEY,
-        "ceratorId" INTEGER REFERENCES users(Id),
+        "creatorId" INTEGER REFERENCES users(Id),
         "IsPublic" BOOLEAN DEFAULT false,
         name VARCHAR(255) UNIQUE NOT NULL,
         goal TEXT NOT NULL
@@ -53,7 +93,7 @@ async function createTables() {
       CREATE TABLE routine_activities (
         id SERIAL PRIMARY KEY,
        "routineId" INTEGER REFERENCES routines (Id),
-       "activityId" INTEGER REFERENCES activity (Id),
+       "activityId" INTEGER REFERENCES activities (Id),
        duration INTEGER,
        count INTEGER,
        UNIQUE ("routineId","activityId")
