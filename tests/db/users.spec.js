@@ -14,10 +14,10 @@ const {
 } = require("../../db");
 const { createFakeUser } = require("../helpers");
 
-describe("DB Users", () => {
+xdescribe("DB Users", () => {
 
 
-  describe("createUser({ username, password })", () => {
+  xdescribe("createUser({ username, password })", () => {
 
     it("Creates the user", async () => {
       const fakeUserData = {
@@ -76,7 +76,7 @@ describe("DB Users", () => {
 
   });
 
-  describe("getUser({ username, password })", () => {
+  xdescribe("getUser({ username, password })", () => {
 
     it("returns the user when the password verifies", async () => {
       const fakeUserData = {
@@ -116,7 +116,7 @@ describe("DB Users", () => {
     });
 
   });
-  describe("getUserById", () => {
+  xdescribe("getUserById", () => {
 
     it("Gets a user based on the user Id", async () => {
       const fakeUser = await createFakeUser("Jacob");
