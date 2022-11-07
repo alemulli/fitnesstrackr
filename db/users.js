@@ -17,17 +17,79 @@ async function createUser({ username, password }) {
       [username, password]
     );
 
+    delete user.password;
+
     return user;
   } catch (error) {
     throw error;
   }
 }
 
-async function getUser({ username, password }) {}
+async function getUser({ username, password }) {
+  try {
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+      SELECT *
+      FROM users
+      WHERE username=$1;
+    `,
+      [username]
+    );
 
-async function getUserById(userId) {}
+    if (password === user.password) {
+      delete user.password;
+      return user;
+    }
+  } catch (error) {
+    throw error;
+  }
+}
 
-async function getUserByUsername(userName) {}
+async function getUserById(userId) {
+  try {
+    const {
+      rows: [user],
+    } = await client.query(`
+      SELECT id, username, password
+      FROM users
+      WHERE id=${userId}
+    `);
+
+    if (!user) {
+      return null;
+    }
+
+    delete user.password;
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getUserByUsername(userName) {
+  try {
+    const {
+      rows: [user],
+    } = await client.query(`
+      SELECT id, username, password
+      FROM users
+      WHERE username=${userName}
+    `);
+
+    if (!user) {
+      return null;
+    }
+
+    delete user.password;
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
 
 module.exports = {
   createUser,
