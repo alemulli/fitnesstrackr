@@ -28,15 +28,12 @@ async function getRoutinesWithoutActivities(){
       rows: routineNames
     } = await client.query(
       `
-      SELECT name
+      SELECT *
       FROM routines;
     `);
 
-    const routines = await Promise.all(routineNames.map(
-      routine => getRoutineById(routine.id)
-    ));
 
-    return routines;
+    return routineNames;
   } catch (error) {
     throw error;
   }
