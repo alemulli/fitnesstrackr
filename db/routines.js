@@ -23,7 +23,7 @@ async function getRoutineById(id) {
 
     return routine;
   } catch (error) {
-    throw error;
+    console.log(error)
   }
 }
 
@@ -38,7 +38,7 @@ async function getRoutinesWithoutActivities() {
 
     return routineNames;
   } catch (error) {
-    throw error;
+    console.log(error)
   }
 }
 
@@ -67,7 +67,7 @@ async function getAllRoutines() {
 
     return withActivities;
   } catch (error) {
-    throw error;
+    console.log(error)
   }
 }
 
@@ -87,7 +87,7 @@ async function getAllRoutinesByUser({ username }) {
 
     return withActivities;
   } catch (error) {
-    throw error;
+    console.log(error)
   }
 }
 
@@ -107,7 +107,7 @@ async function getPublicRoutinesByUser({ username }) {
 
     return withActivities;
   } catch (error) {
-    throw error;
+    console.log(error)
   }
 }
 
@@ -126,7 +126,7 @@ async function getAllPublicRoutines() {
 
     return withActivities;
   } catch (error) {
-    throw error;
+    console.log(error)
   }
 }
 
@@ -148,7 +148,7 @@ async function getPublicRoutinesByActivity({ id }) {
 
     return withActivities;
   } catch (error) {
-    throw error;
+    console.log(error)
   }
 }
 
@@ -168,7 +168,7 @@ async function createRoutine({ creatorId, isPublic, name, goal }) {
 
     return routine;
   } catch (error) {
-    throw error;
+    console.log(error)
   }
 }
 
@@ -196,7 +196,7 @@ async function updateRoutine({ id, ...fields }) {
 
     return routines;
   } catch (error) {
-    throw error;
+    console.log(error)
   }
 }
 
@@ -222,7 +222,7 @@ async function destroyRoutine(id) {
 
     return routine;
   } catch (error) {
-    throw error;
+    console.log(error)
   }
 }
 

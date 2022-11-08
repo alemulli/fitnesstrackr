@@ -22,7 +22,7 @@ async function createUser({ username, password }) {
 
     return user;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 }
 
@@ -44,7 +44,7 @@ async function getUser({ username, password }) {
       return user;
     }
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 }
 
@@ -55,8 +55,8 @@ async function getUserById(userId) {
     } = await client.query(`
       SELECT id, username, password
       FROM users
-      WHERE id=${userId}
-    `);
+      WHERE id=$1
+    `, [userId]);
 
     if (!user) {
       return null;
@@ -66,7 +66,7 @@ async function getUserById(userId) {
 
     return user;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 }
 
@@ -77,18 +77,18 @@ async function getUserByUsername(userName) {
     } = await client.query(`
       SELECT id, username, password
       FROM users
-      WHERE username=${userName}
-    `);
+      WHERE username=$1
+    `, [userName]);
 
     if (!user) {
       return null;
     }
 
     delete user.password;
-console.log('user here hellooooo', user)
+
     return user;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 }
 

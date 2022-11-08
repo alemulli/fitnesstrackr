@@ -18,7 +18,7 @@ router.post("/login", async (req, res, next) => {
         name: "MissingCredentialsError",
         message: "Please supply both a username and password",
       });
-    }
+    } else {
   
     try {
       const user = await getUserByUsername(username);
@@ -46,7 +46,7 @@ router.post("/login", async (req, res, next) => {
       console.log(error);
       next(error);
     }
-  });
+  }});
   
 // POST /api/users/register
 router.post("/register", async (req, res, next) => {
@@ -54,41 +54,42 @@ router.post("/register", async (req, res, next) => {
   
     try {
       const _user = await getUserByUsername(username);
-    //   if (_user) {
-    //     next({
-    //       name: "UserExistsError",
-    //       message: "A user by that username already exists",
-    //     });
-    //   }
-    //     if (password.length <= 8) {
-    //         next({
-    //             name: "You need more password",
-    //             message: "Password Too Short!"
-    //         })
-    //     }
-        
+      if (_user) {
+        next({
+          name: "UserExistsError",
+          message: `User ${username} is already taken.`,
+        });
+      }
+        else if (password.length <= 8) {
+            next({
+                name: "You need more password",
+                message: "Password Too Short!"
+            })
+        }
+        else{
       const user = await createUser({
         username,
         password,
       });
 
      
-    //   const token = jwt.sign(
-    //     {
-    //       id: user.id,
-    //       username,
-    //     },
-    //     process.env.JWT_SECRET,
-    //     {
-    //       expiresIn: "1w",
-    //     }
-    //   );
+      const token = jwt.sign(
+        {
+          id: user.id,
+          username,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1w",
+        }
+      );
   
       res.send({
         message: "thank you for signing up",
         token: "any string",
         user:{ id:user.id , username:user.username}
       });
+    }
     } catch (err) {
       next(err);
     }
