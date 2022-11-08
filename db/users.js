@@ -4,6 +4,7 @@ const client = require("./client");
 
 // user functions
 async function createUser({ username, password }) {
+  console.log("Creating user ", username, password)
   try {
     const {
       rows: [user],

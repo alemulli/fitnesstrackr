@@ -22,8 +22,8 @@ app.use((req, res, next) => {
 const router = require('./api');
 app.use('/api', router);
 
-router.use((err, req, res, next) => {
-    console.error("SERVER ERROR: ", err)
+router.use((error, req, res, next) => {
+    console.error("SERVER ERROR: ", error)
     if (res.statusCode < 400) res.status(500)
     res.send({error: error.message, name: error.name, message: error.message, table: error.table})
   })
