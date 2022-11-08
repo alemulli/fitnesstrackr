@@ -35,8 +35,8 @@ const {
   UnauthorizedError,
 } = require("../../errors")
 
-xdescribe("/api/users", () => {
-  xdescribe("POST /api/users/register", () => {
+describe("/api/users", () => {
+  describe("POST /api/users/register", () => {
     it("Creates a new user.", async () => {
       // Create some fake user data
       const fakeUserData = {
@@ -60,7 +60,7 @@ xdescribe("/api/users", () => {
       })
     })
 
-    it("EXTRA CREDIT: Hashes password before saving user to DB.", async () => {
+    xit("EXTRA CREDIT: Hashes password before saving user to DB.", async () => {
       // Create some fake user data
       const fakeUserData = {
         username: faker.internet.userName(),
