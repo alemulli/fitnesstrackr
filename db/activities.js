@@ -128,7 +128,8 @@ async function createActivity({ name, description }) {
 // don't try to update the id
 // do update the name and description
 // return the updated activity
-async function updateActivity({ id, ...fields }) {
+async function updateActivity(params) {
+  const { id, updateFields: fields } = params
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
@@ -136,23 +137,22 @@ async function updateActivity({ id, ...fields }) {
   if (setString.length === 0) {
     return;
   }
-
   try {
-    const {
-      rows: [activity],
-    } = await client.query(
+    const request = await client.query(
       `
     UPDATE activities
     SET ${setString}
     WHERE id=${id}
-    RETURNING*;
+    RETURNING *;
     `,
       Object.values(fields)
     );
-
+const {
+  rows: [activity],
+} = request
     return activity;
   } catch (error) {
-    console.log(error)
+    console.log("DATABASE ERROR:", error)
   }
 }
 
