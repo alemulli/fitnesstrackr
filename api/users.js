@@ -7,18 +7,19 @@ const {
 } = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
+const { requireUser } = require('./utils')
 
 // POST /api/users/login
 router.post("/login", async (req, res, next) => {
     const { username, password } = req.body;
   
     // request must have both
-    // if (!username || !password) {
-    //   next({
-    //     name: "MissingCredentialsError",
-    //     message: "Please supply both a username and password",
-    //   });
-    // } else {
+    if (!username || !password) {
+      next({
+        name: "MissingCredentialsError",
+        message: "Please supply both a username and password",
+      });
+    } else {
   
     try {
       const user = await getUser({username, password});
@@ -46,7 +47,7 @@ router.post("/login", async (req, res, next) => {
       console.log(error);
       next(error);
     }
-  });
+  }});
   
 // POST /api/users/register
 router.post("/register", async (req, res, next) => {
@@ -96,14 +97,18 @@ router.post("/register", async (req, res, next) => {
   });
 
 // GET /api/users/me
-router.get("/me", async (req, res, next) => {
-    const { username, password } = req.body;
+router.get("/me", requireUser, async (req, res, next) => {
+  console.log(req.user, "what is this saying?")
+  const username = req.user.username
+  
+
     try {
-        const userInfo = await getUser({username,
-        password});
+
+        const userInfo = await getUserByUsername(username);
+        res.send(userInfo) 
     }
-    catch ({ name, message }) {
-      next({ name, message });
+    catch (err) {
+      next(err);
     }
 });
 
