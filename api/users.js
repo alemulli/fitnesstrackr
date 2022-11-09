@@ -13,17 +13,17 @@ router.post("/login", async (req, res, next) => {
     const { username, password } = req.body;
   
     // request must have both
-    if (!username || !password) {
-      next({
-        name: "MissingCredentialsError",
-        message: "Please supply both a username and password",
-      });
-    } else {
+    // if (!username || !password) {
+    //   next({
+    //     name: "MissingCredentialsError",
+    //     message: "Please supply both a username and password",
+    //   });
+    // } else {
   
     try {
-      const user = await getUserByUsername(username);
+      const user = await getUser({username, password});
   
-      if (user && user.password == password) {
+      if (user) {
         // create token & return to user
         const token = jwt.sign(
           {
@@ -35,7 +35,7 @@ router.post("/login", async (req, res, next) => {
             expiresIn: "1w",
           }
         );
-        res.send({ token, message: "you're logged in!" });
+        res.send({ user, token, message: "you're logged in!" });
       } else {
         next({
           name: "IncorrectCredentialsError",
@@ -46,7 +46,7 @@ router.post("/login", async (req, res, next) => {
       console.log(error);
       next(error);
     }
-  }});
+  });
   
 // POST /api/users/register
 router.post("/register", async (req, res, next) => {
