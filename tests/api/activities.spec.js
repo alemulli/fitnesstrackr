@@ -24,8 +24,8 @@ const { arrayContaining } = expect
 
 const { getPublicRoutinesByActivity } = require("../../db")
 
-xdescribe("/api/activities", () => {
-  xdescribe("GET /api/activities", () => {
+describe("/api/activities", () => {
+  describe("GET /api/activities", () => {
     it("Just returns a list of all activities in the database", async () => {
       // Create a fake activity to watch for
       const fakeActivity = await createFakeActivity(
@@ -41,7 +41,7 @@ xdescribe("/api/activities", () => {
     })
   })
 
-  xdescribe("POST /api/activities (*)", () => {
+  describe("POST /api/activities (*)", () => {
     it("Creates a new activity", async () => {
       const { token } = await createFakeUserWithToken("bob")
 
