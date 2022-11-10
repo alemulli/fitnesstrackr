@@ -10,32 +10,24 @@ const {
 const { requireUser } = require("./utils");
 
 // PATCH /api/routine_activities/:routineActivityId
-router.patch("/:routineActivityId", requireUser, async (req, res, next) => {
-  const { routineActivityId } = req.params;
+router.patch("/:id", requireUser, async (req, res, next) => {
+  const { id } = req.params;
   const { count, duration } = req.body;
   const userId = req.user.id;
 
-  const updateFields = {};
-
-  if (count) {
-    updateFields.count = count;
-  }
-  if (duration) {
-    updateFields.duration = duration;
-  }
   try {
     const checkCanEditRoutineActivities = await canEditRoutineActivity(
-      routineActivityId,
+      id,
       userId
     );
     if (checkCanEditRoutineActivities) {
       const changeRoutineActivity = await updateRoutineActivity({
-        id: routineActivityId,
-        updateFields,
+        id,
+        count, duration
       });
       res.send(changeRoutineActivity);
     } else {
-        const theActivityRoutine = await getRoutineActivityById(routineActivityId);
+        const theActivityRoutine = await getRoutineActivityById(id);
         const theRoutineId = theActivityRoutine.routineId;
         const theRoutine = await getRoutineById(theRoutineId);
 

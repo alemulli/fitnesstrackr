@@ -129,7 +129,7 @@ async function createActivity({ name, description }) {
 // do update the name and description
 // return the updated activity
 async function updateActivity(params) {
-  const { id, updateFields: fields } = params
+  const { id, ...fields } = params
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");

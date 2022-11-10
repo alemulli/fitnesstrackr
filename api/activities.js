@@ -66,22 +66,12 @@ router.post("/", requireUser, async (req, res, next) => {
 });
 
 // PATCH /api/activities/:activityId
-router.patch("/:activityId", requireUser, async (req, res, next) => {
-  const { activityId } = req.params;
+router.patch("/:id", requireUser, async (req, res, next) => {
+  const { id } = req.params;
   const { name, description } = req.body;
 
-  const updateFields = {};
-
-  if (name) {
-    updateFields.name = name;
-  }
-
-  if (description) {
-    updateFields.description = description;
-  }
-
   try {
-    const checkingActivityId = await getActivityById(activityId);
+    const checkingActivityId = await getActivityById(id);
 
     if (checkingActivityId) {
       const checkingActivityName = await getActivityByName(name);
@@ -92,14 +82,14 @@ router.patch("/:activityId", requireUser, async (req, res, next) => {
           name: "pick a new name",
         });
       } else {
-        const changeActivity = await updateActivity({id:activityId, updateFields});
+        const changeActivity = await updateActivity({id, name, description});
 
         res.send(changeActivity);
       }
 
     } else {
       next({
-        message: `Activity ${activityId} not found`,
+        message: `Activity ${id} not found`,
         name: "activity not found",
       });
     }

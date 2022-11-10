@@ -70,7 +70,8 @@ async function getRoutineActivitiesByRoutine({ id }) {
 }
 
 async function updateRoutineActivity(params) {
-  const {id, updateFields: fields} = params
+  const {id, ...fields} = params
+  
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");

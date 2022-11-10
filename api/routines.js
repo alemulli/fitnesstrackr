@@ -36,30 +36,15 @@ router.post("/", requireUser, async (req, res, next) => {
 });
 
 // PATCH /api/routines/:routineId
-router.patch("/:routineId", requireUser, async (req, res, next) => {
-  const { routineId } = req.params;
+router.patch("/:id", requireUser, async (req, res, next) => {
+  const { id } = req.params;
   const { isPublic, name, goal } = req.body;
 
-  const updateFields = {};
-
-  updateFields.isPublic = Boolean(isPublic);
-
-  if (name) {
-    updateFields.name = name;
-  }
-
-  if (goal) {
-    updateFields.goal = goal;
-  }
-
   try {
-    const checkingRoutineId = await getRoutineById(routineId);
+    const checkingRoutineId = await getRoutineById(id);
 
     if (checkingRoutineId.creatorId === req.user.id) {
-      const changeRoutine = await updateRoutine({
-        id: routineId,
-        updateFields,
-      });
+      const changeRoutine = await updateRoutine( {id, isPublic, name, goal} );
 
       res.send(changeRoutine);
     } else {
