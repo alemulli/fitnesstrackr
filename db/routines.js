@@ -172,7 +172,8 @@ async function createRoutine({ creatorId, isPublic, name, goal }) {
   }
 }
 
-async function updateRoutine({ id, ...fields }) {
+async function updateRoutine(params) {
+  const {id, updateFields: fields} = params
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
@@ -182,9 +183,7 @@ async function updateRoutine({ id, ...fields }) {
   }
 
   try {
-    const {
-      rows: [routines],
-    } = await client.query(
+    const request = await client.query(
       `
     UPDATE routines
     SET ${setString}
@@ -193,6 +192,7 @@ async function updateRoutine({ id, ...fields }) {
     `,
       Object.values(fields)
     );
+    const {rows: [routines],} = request
 
     return routines;
   } catch (error) {
@@ -210,6 +210,7 @@ async function destroyRoutine(id) {
       `,
       [id]
     );
+    
 
     const {
       rows: [routine],
