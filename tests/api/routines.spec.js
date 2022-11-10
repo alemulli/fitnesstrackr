@@ -28,7 +28,7 @@ const { objectContaining, arrayContaining } = expect
 
 const { getRoutineById } = require("../../db")
 
-describe("/api/routines", () => {
+xdescribe("/api/routines", () => {
   xdescribe("GET /api/routines", () => {
     it("Returns a list of public routines, includes the activities with them", async () => {
       const { fakeUser } = await createFakeUserWithToken("Jan")
@@ -222,7 +222,7 @@ describe("/api/routines", () => {
     })
   })
 
-  describe("POST /api/routines/:routineId/activities", () => {
+  xdescribe("POST /api/routines/:routineId/activities", () => {
     it("Attaches a single activity to a routine.", async () => {
       const { fakeUser, token } = await createFakeUserWithToken("Jerry")
       const fakeActivity = await createFakeActivity(

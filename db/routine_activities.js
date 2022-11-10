@@ -69,7 +69,8 @@ async function getRoutineActivitiesByRoutine({ id }) {
   }
 }
 
-async function updateRoutineActivity({ id, ...fields }) {
+async function updateRoutineActivity(params) {
+  const {id, updateFields: fields} = params
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
@@ -79,9 +80,7 @@ async function updateRoutineActivity({ id, ...fields }) {
   }
 
   try {
-    const {
-      rows: [routineActivity],
-    } = await client.query(
+    const request = await client.query(
       `
     UPDATE routine_activities
     SET ${setString}
@@ -90,7 +89,8 @@ async function updateRoutineActivity({ id, ...fields }) {
     `,
       Object.values(fields)
     );
-
+    const {rows: [routineActivity],} = request
+    
     return routineActivity;
   } catch (error) {
     console.log(error)
