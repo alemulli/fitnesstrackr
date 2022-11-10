@@ -49,7 +49,7 @@ router.post("/", requireUser, async (req, res, next) => {
   const { name, description } = req.body;
 
   try {
-    const checkingActivity = await get(name);
+    const checkingActivity = await getActivityByName(name);
 
     if (checkingActivity) {
       next({

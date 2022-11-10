@@ -61,5 +61,12 @@ router.use('/routines', routinesRouter);
 const routineActivitiesRouter = require('./routineActivities');
 router.use('/routine_activities', routineActivitiesRouter);
 
+router.get('/unknown', async (req, res, next) => {
+    res.status(404);
+    res.send({
+        message:'error'
+    })
+})
+
 
 module.exports = router;
