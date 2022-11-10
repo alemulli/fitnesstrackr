@@ -100,7 +100,7 @@ describe("/api/routines", () => {
     })
   })
 
-  describe("PATCH /api/routines/:routineId (**)", () => {
+  xdescribe("PATCH /api/routines/:routineId (**)", () => {
     it("Updates a routine, notably changing public/private, the name, and the goal", async () => {
       const { fakeUser, token } = await createFakeUserWithToken("Bradley")
       // Create a routine so we can update it.
@@ -222,7 +222,7 @@ describe("/api/routines", () => {
     })
   })
 
-  xdescribe("POST /api/routines/:routineId/activities", () => {
+  describe("POST /api/routines/:routineId/activities", () => {
     it("Attaches a single activity to a routine.", async () => {
       const { fakeUser, token } = await createFakeUserWithToken("Jerry")
       const fakeActivity = await createFakeActivity(
