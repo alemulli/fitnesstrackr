@@ -89,7 +89,7 @@ router.post("/register", async (req, res, next) => {
   
       res.send({
         message: "thank you for signing up",
-        token: "any string",
+        token: token,
         user:{ id:user.id , username:user.username}
       });
     }
