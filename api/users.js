@@ -117,10 +117,8 @@ router.get("/me", requireUser, async (req, res, next) => {
 
 router.get("/:username/routines", async (req, res, next) => {
   const { username } = req.params;
-  
-  const token = req.user.token
 
-  if (token) {
+  if (req.user.username == username) {
     try {
       const allUserRoutines = await getAllRoutinesByUser({ username })
 
