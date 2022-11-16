@@ -160,7 +160,6 @@ async function createRoutine({ creatorId, isPublic, name, goal }) {
       `
       INSERT INTO routines("creatorId", "isPublic", name, goal) 
       VALUES($1, $2, $3, $4) 
-      ON CONFLICT (name) DO NOTHING
       RETURNING *;
     `,
       [creatorId, isPublic, name, goal]
