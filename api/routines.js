@@ -87,25 +87,28 @@ router.post("/:routineId/activities", async (req, res, next) => {
   const [checkingActivity] = await getRoutineActivitiesByRoutine({
     id: routineId,
   });
+  console.log(checkingActivity, "checking activity")
 
-  if (checkingActivity) {
-    if (
+    if (checkingActivity &&
       checkingActivity.activityId === activityId &&
       checkingActivity.routineId === routineId
     ) {
+      console.log("are we makng it here instead?")
       next({
         name: "You can't do that!",
         message: `Activity ID ${activityId} already exists in Routine ID ${routineId}`,
       });
     }
-  } else {
+   else {
     try {
+      console.log("are we making it this far?")
       const addingActivity = await addActivityToRoutine({
         routineId,
         activityId,
         count,
         duration,
       });
+      console.log(addingActivity)
       res.send(addingActivity);
     } catch (err) {
       next(err);
